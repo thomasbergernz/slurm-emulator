@@ -1,0 +1,19 @@
+# NeSI project.properties.default.science_domain -> Waldur oecd_fos_2007_code.
+#
+# NOT mechanical — this is a data-quality/SME task (see migration plan §4.6).
+# Every value below is `null` deliberately: guessing a wrong OECD code is
+# worse than omitting the field. Fill in real codes after review, then
+# `load` will start setting `oecd_fos_2007_code` on newly created projects.
+# Until filled in, the loader skips the field entirely (no error).
+#
+# Observed science_domain values (from live NeSI dev sample) are pre-listed
+# below as a starting point — add more as they're encountered; the loader
+# logs any science_domain value with no entry here (including one present
+# but null) so gaps are visible in the run report rather than silent.
+
+science_domain_to_oecd:
+  Applied Science: null
+  Formal Science: null
+  Life Science: null
+  Earth and Space: null
+  Infrastructure: null

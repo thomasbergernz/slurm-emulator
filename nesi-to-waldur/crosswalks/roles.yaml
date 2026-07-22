@@ -1,0 +1,24 @@
+# NeSI project role -> Waldur project-permission role.
+# Edit freely and re-run `load` — this is data, not code, so it can be
+# corrected without touching the pipeline.
+#
+# Waldur roles per Gap-research (api-integrate.md): PROJECT.ADMIN, PROJECT.MEMBER
+# (plus any custom roles configured via WALDUR_CORE — add here if introduced).
+
+project_roles:
+  Owner: PROJECT.ADMIN
+  Principal Investigator: PROJECT.ADMIN
+  Supervisor: PROJECT.MEMBER
+  Team Member: PROJECT.MEMBER
+
+# Fallback for any NeSI role string not listed above. The loader logs a
+# warning (not an error) whenever this fallback is used, so new/unexpected
+# role strings surface in the run report instead of silently misassigning.
+default_project_role: PROJECT.MEMBER
+
+# NeSI person.organizations[].organizational_role -> Waldur customer-permission
+# role. Waldur's customer-permission role key confirmed by research is "owner"
+# only (single-tier). Every organizational_role maps to it for now — if a
+# narrower/read-only customer role is ever added to Waldur, split this out.
+customer_roles:
+  default: owner

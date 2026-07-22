@@ -1,0 +1,45 @@
+# NeSI facility/resource -> Waldur marketplace Offering/Plan/Component.
+#
+# Offerings and Plans are PROVIDER-SIDE setup, created once (manually or via
+# Ansible), not by this migration tool. The values below identify EXISTING
+# Waldur objects BY UUID (copy from the Waldur admin UI or `GET .../uuid`
+# after creating each Offering/Plan) — Offering/Plan backend_id filters are
+# not confirmed to exist on this Waldur fork, so UUIDs are used directly
+# rather than guessing at an unconfirmed lookup. `load --dry-run` reports
+# any facility/allocation_class it cannot resolve instead of guessing.
+
+facilities:
+  HPC3_TDC:
+    facility_name: HPC3
+    # "HPC" offering on waldur.nesi-test.nznesi.io (customer REANNZ, category HPC,
+    # type Marketplace.Slurm). Components cpu/storage_project/storage_scratch added
+    # via create_offering_component to match the `components:` block below.
+    offering_uuid: e2144b25e01e4583a3e13bf3ca290a78
+    plans:
+      Collaborator: bf755467aa144b55964a8f29bf9df2b7 # "Default" plan on the HPC offering
+      # add other NeSI allocation_class values here as they're encountered
+
+# NeSI resource.code -> Waldur offering component `type` key.
+#
+# billing_type: ALL limit-based here. The load creates resources via the
+# marketplace ORDER flow, and Waldur's order `limits` map only accepts
+# limit-based component types — a usage-based component cannot carry an
+# allocation cap at order time. Since NeSI `allocated` values ARE entitlement
+# caps, limit-based faithfully preserves every number as a Waldur resource
+# limit. (The offering components on the target instance must match: all three
+# were set limit-based via create_offering_component/update_offering_component.
+# Switch a component to usage-based later with the offering's switch_billing_mode
+# action if real usage metering via a connected backend is introduced.)
+components:
+  CPU_CORE_HPC3:
+    component_type: cpu
+    measured_unit: core-hours
+    billing_type: limit
+  WEKA_STORAGE_SPACE_PROJECT:
+    component_type: storage_project
+    measured_unit: GiB
+    billing_type: limit
+  WEKA_STORAGE_SPACE_SCRATCH:
+    component_type: storage_scratch
+    measured_unit: GiB
+    billing_type: limit
