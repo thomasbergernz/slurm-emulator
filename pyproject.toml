@@ -51,6 +51,8 @@ dev = [
     "types-requests",
     "types-PyYaml",
     "types-python-dateutil",
+    "waldur-site-agent-slurm==1.0.5",
+    "waldur-site-agent==1.0.5",
 ]
 
 [project.scripts]
